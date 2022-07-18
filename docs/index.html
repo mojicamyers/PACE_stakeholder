@@ -318,13 +318,13 @@
               var template = {
                     title: "Census Tract Info",
               };
-
-              var Tracts = new GeoJSONLayer({
-                    url: "https://www.dl.dropboxusercontent.com/s/zasfpq347udw5hh/Tracts.json?dl=0",
+              
+              var Tracts = new FeatureLayer({
+                    url: "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer",
                     popupTemplate: template,
               });
               myMap.add(Tracts);
-
+              
               var Desert5Mile = new GeoJSONLayer({
                     url: "https://www.dl.dropboxusercontent.com/s/12mpk8xqs3jmfju/Desert5Mile.geojson?dl=0",
                     popupEnabled: "True"
@@ -337,12 +337,12 @@
               myMap.add(Desert2Mile);
 
               var Buffer5Mile = new GeoJSONLayer({
-                    url: "https://www.dl.dropboxusercontent.com/s/yu9vq4n8zkcgsae/Buffer5Mile.geojson?dl=0",
+                    url: "https://www.dl.dropboxusercontent.com/s/ky7tiw09txx3ypi/Buffer5Mile.json?dl=0",
               });
               myMap.add(Buffer5Mile);
 
               var Buffer2Mile = new GeoJSONLayer({
-                    url: "https://www.dl.dropboxusercontent.com/s/v3ja82d0uasc4tx/Buffer2Mile.geojson?dl=0",
+                    url: "https://www.dl.dropboxusercontent.com/s/su1shzvcf3ti14r/Buffer2Mile.json?dl=0",
               });
               myMap.add(Buffer2Mile);
 
@@ -482,11 +482,19 @@
                     title: "Store Buffers",
                     layers: [Buffer5Mile, Buffer2Mile]
                 });
+
+                var myGroupLayer4 = new GroupLayer({
+                    
+                    title: "Census Tracts",
+                    layers: [Tracts]
+                });
                 
-                
+                myMap.add(myGroupLayer4);
                 myMap.add(myGroupLayer2);
                 myMap.add(myGroupLayer3);
                 myMap.add(myGroupLayer1);
+
+
                 
                 
                 var searchBar = new Search ({
@@ -507,7 +515,6 @@
 
                 
 //Adds location information to the More Info tab
-
                 myView.when().then(() => {
 	                const graphic = {
 		                popupTemplate: {

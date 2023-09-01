@@ -1,0 +1,863 @@
+<! DOCTYPE html>
+<html>
+    <head>
+        <meta  http-equiv = "Content-Type" content="text/html; charset= utf-8">
+        <meta http-equiv = "X-UA-Compatible" content="IE=7,IE=9">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1, maximum scale=1, user-scalable=no">
+        
+        <title>SEO Food Finder Analysis Map</title>
+        <style>
+            html,body{
+                padding:0;
+                margin: 0;
+                height: 100%;
+                width:  100%;
+                background-color:#00694e;
+            }
+            
+            #titleDiv{
+                float: top;
+                padding: 0;
+                margin: 0;
+                height: 10%;
+                width: 100%;
+                background-color:#00694e;
+                font-weight: bold;
+                font-size: 26px;
+            }
+            
+            h1{
+                text-align: center;
+                color: white;
+                font-family: sans-serif;
+                vertical-align: middle;
+            }
+            
+            
+            #viewDiv{
+                float: bottom;
+                padding:0;
+                margin: 0;
+                height: 90%;
+                width:  100%;                
+            }
+            #mapDiv{
+                float:left;
+                padding: 0;
+                margin: 0;
+                height: 94%;
+                width: 67%; 
+                padding-left: .50%;
+                padding-right: .50%;
+                background-color: #00694e;
+            }
+            #panelDiv{
+                float:right;
+                margin: 0;
+                padding: 0;
+                height: 80%;
+                width: 32%;
+                background-color: #00694e;
+            }
+            #popupDiv{
+                float: bottom;
+                margin-left: 25%;
+                margin-right: 25%;
+                height: 30%;
+                width: 50%;
+                background-color: #00694e;
+            }
+            
+        
+            
+            h4{
+                text-align: center;
+                color: white;
+                font-family: Arial, sans-serif;
+                font-size:15px;
+                padding-left:3.5%;
+                padding-right:3.5%;             
+            }
+            
+        
+            
+            #searchDiv{
+                float: center;
+                padding: 0;
+                margin: 0;
+                height: 10%;
+                width: 98%;
+                background-color: #00694e;
+                
+            }
+            
+            #legendDiv{
+                float:center;
+                margin:0;
+                padding: 0;
+                height: 85%;
+                width: 98%;
+                
+            }
+            
+            #legendDiv1{
+                float: right;
+                padding:0;
+                height: 100%;
+                width: 50%;
+                background-color: #00926E;
+                    
+            }
+            
+            #helpDiv{
+                float: left;
+                padding: 0;
+                margin: 0;
+                height: 100%;
+                width: 50%;
+                background-color: #00926E;
+                vertical-align: middle;
+            }
+            
+        
+            
+            .tab{
+                overflow: hidden;
+                border: 1px solid #ccc;
+                background-color: #00694e;
+                
+            }
+            
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+                font-size: 17px;
+                color: white;
+                font-weight: bold;
+            }
+            
+            .tab button:hover {
+                background color: #00926E;
+            }
+            
+            .tab button.active {
+                background-color: #00926E;
+            }
+            
+            .tabcontent{
+                padding: 6px 12px;
+                border: 1px solid #00694e;
+                border-top: none;
+                color: white;
+            }
+            
+            .img {
+                display: block;
+                float:center;
+                margin-left: auto;
+                margin-right: auto;
+                }
+            
+            
+            
+            .splash{
+                position: fixed;
+                top:0;
+                left: 0;
+                width: 100%;
+                height: 60vh;
+                background-color: #00926E;
+                z-index: 200;
+                color: white;
+                text-align: left;
+                font-size: 20px;
+                line-height: 4vh;
+            }
+            
+            .splash.display-none{
+                position: fixed;
+                opacity: 0;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 20vh;
+                background-color: #00926E;
+                z-index: -10;
+                color: white;
+                text-align: left;
+                line-height: 4vh;
+                transition: all 1s;
+            }
+            
+            @keyframes fadeIn{
+                to(
+                    opacity: 1;
+                )
+            }
+            
+            .fade-in{
+                opacity: 0;
+                animation: fadeIn is ease forwards;
+                
+            }
+            
+            @media only screen and (max-width: 1000px) {
+                .splash {
+                    font-size: 14px;
+                }
+                
+                #InstructionTab{
+                    font-size: 11px;
+                }
+            }
+            
+
+            @-webkit-keyframes whirl-color-range {
+                0% {
+                    -webkit-box-shadow: 0px 20px 0 0 #324525, 15px 20px 0 0 #388E3C, 30px 20px 0 0 #66BB6A, 45px 20px 0 0 #fdf9fe, 60px 20px 0 0 white;
+                    box-shadow: 0px 20px 0 0 #324525, 15px 20px 0 0 #388E3C, 30px 20px 0 0 #66BB6A, 45px 20px 0 0 #fdf9fe, 60px 20px 0 0 white; }
+                20% {
+                    -webkit-box-shadow: 0px 20px 0 0 #388E3C, 15px 20px 0 0 #66BB6A, 30px 20px 0 0 #fdf9fe, 45px 20px 0 0 white, 60px 20px 0 0 #324525;
+                    box-shadow: 0px 20px 0 0 #388E3C, 15px 20px 0 0 #66BB6A, 30px 20px 0 0 #fdf9fe, 45px 20px 0 0 white, 60px 20px 0 0 #324525; }
+                40% {
+                    -webkit-box-shadow: 0px 20px 0 0 #66BB6A, 15px 20px 0 0 #fdf9fe, 30px 20px 0 0 white, 45px 20px 0 0 #324525, 60px 20px 0 0 #388E3C;
+                    box-shadow: 0px 20px 0 0 #66BB6A, 15px 20px 0 0 #fdf9fe, 30px 20px 0 0 white, 45px 20px 0 0 #324525, 60px 20px 0 0 #388E3C; }
+                60% {
+                    -webkit-box-shadow: 0px 20px 0 0 #fdf9fe, 15px 20px 0 0 white, 30px 20px 0 0 #324525, 45px 20px 0 0 #388E3C, 60px 20px 0 0 #66BB6A;
+                    box-shadow: 0px 20px 0 0 #fdf9fe, 15px 20px 0 0 white, 30px 20px 0 0 #324525, 45px 20px 0 0 #388E3C, 60px 20px 0 0 #66BB6A; }
+                80% {
+                    -webkit-box-shadow: 0px 20px 0 0 white, 15px 20px 0 0 #324525, 30px 20px 0 0 #388E3C, 45px 20px 0 0 #66BB6A, 60px 20px 0 0 #fdf9fe;
+                    box-shadow: 0px 20px 0 0 white, 15px 20px 0 0 #324525, 30px 20px 0 0 #388E3C, 45px 20px 0 0 #66BB6A, 60px 20px 0 0 #fdf9fe; }
+                100% {
+                    -webkit-box-shadow: 0px 20px 0 0 #324525, 15px 20px 0 0 #388E3C, 30px 20px 0 0 #66BB6A, 45px 20px 0 0 #fdf9fe, 60px 20px 0 0 white;
+                    box-shadow: 0px 20px 0 0 #324525, 15px 20px 0 0 #388E3C, 30px 20px 0 0 #66BB6A, 45px 20px 0 0 #fdf9fe, 60px 20px 0 0 white; } }
+            @keyframes whirl-color-range {
+                0% {
+                    -webkit-box-shadow: 0px 20px 0 0 #324525, 15px 20px 0 0 #388E3C, 30px 20px 0 0 #66BB6A, 45px 20px 0 0 #fdf9fe, 60px 20px 0 0 white;
+                    box-shadow: 0px 20px 0 0 #324525, 15px 20px 0 0 #388E3C, 30px 20px 0 0 #66BB6A, 45px 20px 0 0 #fdf9fe, 60px 20px 0 0 white; }
+                20% {
+                    -webkit-box-shadow: 0px 20px 0 0 #388E3C, 15px 20px 0 0 #66BB6A, 30px 20px 0 0 #fdf9fe, 45px 20px 0 0 white, 60px 20px 0 0 #324525;
+                    box-shadow: 0px 20px 0 0 #388E3C, 15px 20px 0 0 #66BB6A, 30px 20px 0 0 #fdf9fe, 45px 20px 0 0 white, 60px 20px 0 0 #324525; }
+                40% {
+                    -webkit-box-shadow: 0px 20px 0 0 #66BB6A, 15px 20px 0 0 #fdf9fe, 30px 20px 0 0 white, 45px 20px 0 0 #324525, 60px 20px 0 0 #388E3C;
+                    box-shadow: 0px 20px 0 0 #66BB6A, 15px 20px 0 0 #fdf9fe, 30px 20px 0 0 white, 45px 20px 0 0 #324525, 60px 20px 0 0 #388E3C; }
+                60% {
+                    -webkit-box-shadow: 0px 20px 0 0 #fdf9fe, 15px 20px 0 0 white, 30px 20px 0 0 #324525, 45px 20px 0 0 #388E3C, 60px 20px 0 0 #66BB6A;
+                    box-shadow: 0px 20px 0 0 #fdf9fe, 15px 20px 0 0 white, 30px 20px 0 0 #324525, 45px 20px 0 0 #388E3C, 60px 20px 0 0 #66BB6A; }
+                80% {
+                    -webkit-box-shadow: 0px 20px 0 0 white, 15px 20px 0 0 #324525, 30px 20px 0 0 #388E3C, 45px 20px 0 0 #66BB6A, 60px 20px 0 0 #fdf9fe;
+                    box-shadow: 0px 20px 0 0 white, 15px 20px 0 0 #324525, 30px 20px 0 0 #388E3C, 45px 20px 0 0 #66BB6A, 60px 20px 0 0 #fdf9fe; }
+                100% {
+                    -webkit-box-shadow: 0px 20px 0 0 #324525, 15px 20px 0 0 #388E3C, 30px 20px 0 0 #66BB6A, 45px 20px 0 0 #fdf9fe, 60px 20px 0 0 white;
+                    box-shadow: 0px 20px 0 0 , 15px 20px 0 0 #388E3C, 30px 20px 0 0 #66BB6A, 45px 20px 0 0 #fdf9fe, 60px 20px 0 0 white; } }
+
+            .color-range {
+                -webkit-animation: whirl-color-range .5s infinite ease;
+                    animation: whirl-color-range .5s infinite ease;
+                content: '';
+                height: 10px;
+                -webkit-transform: translate(-30px, -20px);
+                    transform: translate(-30px, -20px);
+                width: 10px; 
+                position: fixed;
+                top:-100%; right:-100%; left:-100%; bottom:-100%;
+                margin:auto;
+                z-index:0;}
+
+
+
+        </style>
+        <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
+        <script src="https://js.arcgis.com/4.23/"></script>
+        
+        <script>
+            require([
+                "esri/config",
+                "esri/core/urlUtils",
+                "esri/Map",
+                "esri/views/MapView",
+                "esri/layers/FeatureLayer",
+                "esri/layers/CSVLayer",
+                "esri/layers/GroupLayer",
+                "esri/layers/VectorTileLayer",
+                "esri/Basemap",
+                "esri/layers/GeoJSONLayer",
+                "esri/widgets/Directions",
+                "esri/layers/GroupLayer",
+                "esri/widgets/Feature",
+                "esri/widgets/Legend",
+                "esri/widgets/LayerList",
+                "esri/widgets/Search",
+                "esri/widgets/Locate",
+                "esri/widgets/BasemapToggle",
+                "esri/renderers/SimpleRenderer",
+                "esri/symbols/SimpleLineSymbol",
+                "dojo/domReady!"
+            ], function(
+                    esriConfig, urlUtils, Map, MapView, FeatureLayer, CSVLayer, GroupLayer, VectorTileLayer, Basemap, GeoJSONLayer, Directions, GroupLayer, Feature, Legend, LayerList, Search, Locate, BasemapToggle, SimpleRenderer, SimpleLineSymbol){
+                
+                //esriConfig.apiKey = "AAPK5cacc7f459dd4595b7de450a43923bfdwuJ4NpkgZCfrxqfwTO6W64wJINqAmV8tw6W-Ei4rvypbWIwW8smW4mNloFA_zRpw";
+                
+                var esriBaseMap = new VectorTileLayer({
+                    url: "https://arts-sciences.maps.arcgis.com/sharing/rest/content/items/4428e861798845a4942c60423b6abeb6/resources/styles/root.json?f=json",
+                    title: "Basemap",
+                    listMode:"show"
+                });
+                
+                    const myBasemap = new Basemap({
+                        baseLayers: [esriBaseMap],
+                        title: "Navigation",
+                        id: "navigation",
+                        thumbnailUrl: "https://www.dl.dropboxusercontent.com/s/lz33l8v0l17j53r/Navigation.png?dl=0"
+                    });
+                
+                    var myMap = new Map({
+                        basemap: myBasemap
+                });
+
+                var myView = new MapView({
+                    map: myMap,
+                    container: "mapDiv",
+                    center: [-82.05587, 39.46],
+                    zoom:7,
+                    popup: {
+                        autoOpenEnabled: false                       
+                        },
+                });
+                
+                myView.when(() => {
+                    // Add a basemap toggle widget to toggle between basemaps 
+                const toggle = new BasemapToggle ({
+                    visibleElements: {
+                        title: true
+                    },
+                    view: myView,
+                    nextBasemap: "hybrid"
+                });
+                        myView.ui.add(toggle, "bottom-left")
+                });
+                
+                
+                function createSymbol(color) {
+                return {
+                    type: "simple-fill",
+                    color: color,
+                    outline: {
+                        width: 0.5,
+                        color: [255, 255, 255, 0.4]
+                    },
+                    style: "solid"
+                };
+            }
+
+ var renderer = {
+                type: "class-breaks",
+                field: "POP100",
+                normalizationType: "percent-of-total",
+                normalizationTotal: 37253956,
+                classBreakInfos: [{
+                    minValue: 0,
+                    maxValue: 0.5,
+                    symbol: createSymbol("#fef0d9"),
+                    label: "0.0 - 0.58%"
+                }, {
+                    minValue: 0.59,
+                    maxValue: 1.5,
+                    symbol: createSymbol("#fdcc8a"),
+                    label: "0.59 - 1.38%"
+                }, {
+                    minValue: 1.8,
+                    maxValue: 4.1,
+                    symbol: createSymbol("#fc8d59"),
+                    label: "1.83 - 4.05%"
+                }, {
+                    minValue: 4.7,
+                    maxValue: 8.32,
+                    symbol: createSymbol("#e34a33"),
+                    label: "4.78 - 8.31%"
+                }, {
+                    minValue: 8.32,
+                    maxValue: 27,
+                    symbol: createSymbol("#b30000"),
+                    label: "8.32 - 26.3558%"
+                }]
+        };  
+        
+     
+  var counties2 = new FeatureLayer({
+  url:"https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/State_County/MapServer/31",
+  definitionExpression: "STATE = '39'",
+      opacity: 0.70,
+      renderer:renderer,
+      
+            })
+            
+            myMap.add(counties2);
+        
+         var TractSym = new SimpleLineSymbol({
+        color:"#94593b",
+        style:"solid",
+        width: 1.5,
+        opacity: 0.5
+    });
+    
+    var TractRenderer = new SimpleRenderer({
+        symbol: TractSym
+    });
+              var template = {
+                    title: "Census Tract Info",
+              };
+              
+             var Tracts = new FeatureLayer({
+                    url: "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Tracts_Blocks/MapServer",
+                 renderer: TractRenderer,
+                  definitionExpression: "STATE = '39'",
+                   popupTemplate: template,
+              });
+              myMap.add(Tracts);
+                
+                const cntrenderer = {
+                      type: "simple",
+                          symbol: {
+                              type: "simple-fill",
+                              color: "#b33636",
+                                  outline: {
+                                      color: "white",
+                                          width: 0.7
+                                  }
+                          }};
+              
+              var Desert5Mile = new GeoJSONLayer({
+                    url: "https://www.dl.dropboxusercontent.com/s/12mpk8xqs3jmfju/Desert5Mile.geojson?dl=0",
+                  renderer: cntrenderer,
+                  opacity: 0.65,
+                  title: "5 mile radius",
+                    popupEnabled: "True",
+                  
+              }); 
+              myMap.add(Desert5Mile);
+                
+                
+                const cntrenderer1 = {
+                      type: "simple",
+                          symbol: {
+                              type: "simple-fill",
+                              color: "#ff4d4d",
+                                  outline: {
+                                      color: "white",
+                                          width: 0.7
+                                  }
+                          }};
+
+              var Desert2Mile = new GeoJSONLayer({
+                    url: "https://www.dl.dropboxusercontent.com/s/2i28ptiwpbbl43x/Desert2Mile.geojson?dl=0",
+                  renderer: cntrenderer1,
+                  opacity: 0.75,
+                  title: "2 mile radius"
+              });
+              myMap.add(Desert2Mile);
+                
+             var IncomebyCounty = new FeatureLayer({
+                 url: "https://mtgis-server.geo.census.gov/arcgis/rest/services/Median_Household_Income/MapServer/19",
+                 definitionExpression: "STATE = '39'",
+                 opacity: 0.75,
+                 title: "Income by County - (or county equivalent)",
+             });
+                myMap.add(IncomebyCounty);
+                
+            
+            var SchoolDistricts = new FeatureLayer({
+                 url: "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/School/MapServer/0",
+                 definitionExpression: "STATE = '39'",
+                 title: "Unified School Districts - under 18 ",
+             });
+                myMap.add(SchoolDistricts);
+                
+                
+            var HighPoverty = new FeatureLayer({
+                 url: "https://mtgis-server.geo.census.gov/arcgis/rest/services/Poverty/MapServer/21",
+                 definitionExpression: "STATE = '39'",
+                 opacity: 0.65,
+                 title: "Poverty Status",
+             });
+                myMap.add(HighPoverty);
+                
+                
+        var renderer2 = {
+                type: "class-breaks",
+                field: "POP65UP_PCT",
+                classBreakInfos: [{
+                    minValue: 0,
+                    maxValue: 14.9999999,
+                    symbol: createSymbol("#8cffdc"),
+                    label: "Less than 15.0%"
+                }, {
+                    minValue: 15.0,
+                    maxValue: 19.999999,
+                    symbol: createSymbol("#5aa28b"),
+                    label: "15.0% to 19.0%"
+                }, {
+                    minValue: 20.0,
+                    maxValue: 24.999999,
+                    symbol: createSymbol("#505944"),
+                    label: "20.0% to 24.9%"
+                }, {
+                    minValue: 25.0,
+                    maxValue: 34.999999,
+                    symbol: createSymbol("#b3ab60"),
+                    label: "25.0% to 34.9%"
+                }, {
+                    minValue: 35.0,
+                    maxValue: 100,
+                    symbol: createSymbol("#ffea8c"),
+                    label: "35.0% or more"
+                }]
+        };  
+                
+          var ElderlyandUp = new FeatureLayer({
+                 url: "https://mtgis-server.geo.census.gov/arcgis/rest/services/PL_Press_Release_2020/Families_Households/MapServer/35",
+                 renderer:renderer2,
+                 opacity: 0.65,
+                 title: "Percent population aged 65 and over by census tract",
+             });
+                myMap.add(ElderlyandUp);
+           
+                
+          var SingleParentHH = new FeatureLayer({
+                 url: "https://mtgis-server.geo.census.gov/arcgis/rest/services/PL_Press_Release_2020/Families_Households/MapServer/25",
+                 
+                 opacity: 0.65,
+                 title: "Percent single parent household by census tract",
+             });
+                myMap.add(SingleParentHH);
+              /*var Buffer5Mile = new GeoJSONLayer({
+                    url: "https://www.dl.dropboxusercontent.com/s/ky7tiw09txx3ypi/Buffer5Mile.json?dl=0",
+              });
+              myMap.add(Buffer5Mile);
+
+              var Buffer2Mile = new GeoJSONLayer({
+                    url: "https://www.dl.dropboxusercontent.com/s/su1shzvcf3ti14r/Buffer2Mile.json?dl=0",
+              });
+              myMap.add(Buffer2Mile);*/
+
+
+
+
+                ////////// Big Box Stores
+              
+                var bigBox = new CSVLayer({
+                    url:"https://www.dl.dropboxusercontent.com/scl/fi/ar44puoy2mo8j86rg1x43/SNAP_BigBox.2.3.csv?rlkey=zlj4l24kamg9s8876f2bi0fnn&dl=0",                 
+                    title: "Big Box Store",
+                    
+                    
+                    
+                    popupTemplate: {
+                            title: "{storeName}",
+                        content: "<p>This is a SNAP benefit accepting {Store_Type} retailer located at {Address} in {City}, {State}.</p> Hours: {HourOpen} - {HourClose}<br><br> Sunday: {Sunday} <br> Monday: {Monday} <br> Tuesday: {Tuesday} <br> Wednesday: {Wednesday} <br> Thursday: {Thursday} <br> Friday: {Friday} <br> Saturday: {Saturday} </br> <br> Picture: <img src={ImageLink}> Image Credit: {Cred} </br>",
+                        container: "InfoTab",
+                         
+                        
+                    }
+                    
+                });
+            
+                
+               
+
+
+                bigBox.renderer = {
+                    type:"simple", //which outcast new SimpleRenderer
+                    symbol:{
+                        type: "simple-marker",
+                        style: "square",
+                        color: "#e41a1c",
+                        size: 8,
+                        outline:{
+                            width: 1,
+                            width: 1,
+                            color: "#ffffff"
+                        }
+                    
+                    }
+                    
+                };
+                
+                myMap.add(bigBox);                
+
+                ////////// Convenience Stores
+                
+                var convenienceStore = new CSVLayer({
+                    url:"https://www.dl.dropboxusercontent.com/s/vfzape2wwgwnn9x/SNAP_ConvenienceStore.csv?dl=0",       
+                    title: "Convenience Store", 
+                    popupTemplate: {
+                            title: "{Store_Name}",
+                            content:"<p>This is a SNAP benefit accepting {Store_Type} retailer located at {Address} in {City}, {State}.</p> Hours: {HourOpen} - {HourClose}<br><br> Sunday: {Sunday} <br> Monday: {Monday} <br> Tuesday: {Tuesday} <br> Wednesday: {Wednesday} <br> Thursday: {Thursday} <br> Friday: {Friday} <br> Saturday: {Saturday}" ,
+                            container: "InfoTab"
+                        }
+                });
+                
+                convenienceStore.renderer = {
+                    type:"simple", //which outcast new SimpleRenderer
+                    symbol:{
+                        type: "simple-marker",
+                        color: "#ff7f00",
+                        style: "diamond",
+                        size: 10,
+                        outline:{
+                            width: 1,
+                            color: "#ffffff"
+                        }
+                    }
+                };
+                
+                myMap.add(convenienceStore);
+                
+                ////////// Grocery Stores
+                
+                var groceryStore = new CSVLayer({
+                    url:"https://www.dl.dropboxusercontent.com/s/fir9p4wvzeqocdn/SNAP_GroceryStore.csv?dl=0",           
+                    title: "Grocery Store",     
+                    popupTemplate: {
+                            title: "{Store_Name}",
+                            content:"<p>This is a SNAP benefit accepting {Store_Type} retailer located at {Address} in {City}, {State}.</p> Hours: {HourOpen} - {HourClose}<br><br> Sunday: {Sunday} <br> Monday: {Monday} <br> Tuesday: {Tuesday} <br> Wednesday: {Wednesday} <br> Thursday: {Thursday} <br> Friday: {Friday} <br> Saturday: {Saturday}",
+                            container: "InfoTab"
+                            
+                        }
+                });
+                
+                groceryStore.renderer = {
+                    type:"simple", //which outcast new SimpleRenderer
+                    symbol:{
+                        type: "simple-marker",
+                        style:"diamond",
+                        color: "#984ea3",
+                        size: 10,
+                        outline:{
+                            width: 1,
+                            color: "#ffffff"
+                        }
+                    }
+                };
+                
+                myMap.add(groceryStore);
+                
+
+
+                ///////////////////LayerList
+                
+                
+                
+                const layerList1 = new LayerList({
+                    view: myView,
+                    container: "LegendTab",
+                    
+                    listItemCreatedFunction: function(event){
+                        const item = event.item;
+                        if(item.layer.type != "group"){
+                            
+                            item.panel = {
+                                content: "legend",
+                                open: true
+                            };
+                        }
+                    }
+                });
+
+                var myGroupLayer1 = new GroupLayer({
+                    
+                    title: "Stores",
+                    layers: [bigBox,convenienceStore,groceryStore]
+                });
+                
+                var myGroupLayer2 = new GroupLayer({
+                    
+                    title: "Food Deserts",
+                    layers: [Desert2Mile, Desert5Mile]
+                });
+
+                /*var myGroupLayer3 = new GroupLayer({
+                    
+                    title: "Store Buffers",
+                    layers: [Buffer5Mile, Buffer2Mile]
+                });*/
+
+                var myGroupLayer5 = new GroupLayer({
+                    
+                    title: "Census Data",
+                    layers: [counties2, IncomebyCounty, HighPoverty, ElderlyandUp, SingleParentHH]
+                });
+                
+                var myGroupLayer4 = new GroupLayer({
+                    
+                    title: "Census Boundaries",
+                    layers: [Tracts, SchoolDistricts]
+                });
+                
+                myMap.add(myGroupLayer5);
+                myMap.add(myGroupLayer4);
+                myMap.add(myGroupLayer2);
+                //myMap.add(myGroupLayer3);
+                myMap.add(myGroupLayer1);
+
+
+                
+                
+                var searchBar = new Search ({
+                    view: myView,
+                    container: searchDiv 
+                });
+                
+                
+                var locateBtn = new Locate({
+                    view: myView, 
+                    scale: 10000,
+                });
+                
+                myView.ui.add(locateBtn, {
+                    position: "top-left"
+                });
+
+
+                
+//Adds location information to the More Info tab
+                myView.when().then(() => {
+	                const graphic = {
+		                popupTemplate: {
+			                content: "<b>Click a feature to show details...</b><br><br> - Click on the tabs to change between the more information, map legend, and instructions.<br> - To zoom to your location: Press the circular icon in the top-left under the zoom controls (+/-) and click \"Allow\" if prompted.<br> - In the legend, click the arrow to expand the category to see its respective facility types.<br> - In the legend, click the eye symbol to turn that facility on and off.<br> - Layers are set to be automatically displayed at certian scale ranges. If you are unable to view a layer try zooming in -or -out using the scroll bar on your mouse or the zoom buttons ( + / - ) located in the upper left hand side of the map frame. <br>"
+		                }
+                        
+	                };
+
+	                const feature = new Feature({
+	                	container: "InfoTab",
+	                	graphic: graphic,
+	                	map: myView.myMap,
+	                	spatialReference: myView.spatialReference
+	                });
+
+
+
+	                myView.whenLayerView(bigBox).then((layerView) => {
+	                	let highlight, graphicInfo;
+	                	myView.on("click", (event) => {
+	                		myView.hitTest(event).then((event) => {
+		                		const results = event.results.filter((result) => {
+		                			return result.graphic.layer.popupTemplate;
+			                   	});
+                            const graphicInfo = event.results[0].graphic;
+                            const attributes = graphicInfo.attributes;
+                            mapUrl = attributes.MapsLink;
+                            console.log(mapUrl)
+                            
+
+			                	const result = results[0];
+			                	highlight && highlight.remove();
+				                if (result) {
+				                	feature.graphic = result.graphic;
+				                	highlight = layerView.highlight(result.graphic);
+			                	} else {
+			                		feature.graphic = graphic;
+			                	}
+			                });
+	                	});
+                	});
+                });                              
+            });
+            
+   
+        </script>
+    </head>
+
+    <body>
+        
+        <div id="titleDiv">
+                <h1>SEO Food Finder Analysis Map</h1>
+        </div>
+        <div class = "splash">
+            <div class = "fadeIn">
+                <p><h1>Welcome to the SEO Food Finder</h1></p>
+                <p>To get started:</p>
+                <ul>
+                    <li>Click on the tabs to change between the more information, map legend, and instructions.</li>
+                    <li>To zoom to your location: Press the circular icon in the top-left under the zoom controls (+/-) and click "Allow" if prompted.</li>
+                    <li>In the legend, click the arrow to expand the category to see its respective facility types. </li>
+                    <li>In the legend, click the eye symbol to turn that facility on and off.</li>
+                    <li>Layers are set to be automatically displayed at certian scale ranges. If you are unable to view a layer try zooming in -or -out using the scroll bar on your mouse or the zoom buttons ( + / - ) located in the upper left hand side of the map frame. </li>
+                    
+                </ul>
+                <p>Click the "Instructions" tab to refer back to these instructions.</p>
+                <div class="color-range"></div>
+                
+            </div>
+        </div>
+        
+        
+        
+        <div id="viewDiv">
+            <div id="mapDiv"></div>
+                <div id="panelDiv">
+                    <div id="searchDiv"></div>
+                    <div id="legendDiv"><div class="tab">
+                        <button class="tablinks" onclick="openTab(event,'InfoTab')">More Info</button>                 
+                        <button class="tablinks" onclick="openTab(event,'LegendTab')">Map Legend</button> 
+                        <button class="tablinks" onclick="openTab(event,'InstructionTab')">Instructions</button> 
+                         </div>
+                    <div id="InfoTab" class="tabcontent">
+                       
+                    </div>                       
+                    <div id="LegendTab" class="tabcontent" style="display:none">
+                    </div>  
+                    <div id="InstructionTab" class="tabcontent" style="display:none">
+                        <ul>
+                            <li>Click on the tabs to change between the more information, map legend, and instructions.</li>
+                            <li>To zoom to your location: Press the circular icon in the top-left under the zoom controls (+/-) and click "Allow" if prompted.</li>
+                            <li>In the legend, click the arrow to expand the category to see its respective facility types. </li>
+                            <li>In the legend, click the eye symbol to turn that facility on and off.</li>
+                            <li>Layers are set to be automatically displayed at certian scale ranges. If you are unable to view a layer try zooming in -or -out using the scroll bar on your mouse or the zoom buttons ( + / - ) located in the upper left hand side of the map frame. </li>
+                            
+                        </ul>
+                    </div> 
+                    <!--<a href="https://maps.google.com/" target="_blank" onclick="location.href=this.href+'?daddr='+mapUrl;return false;"><h3>Directions</h3></a>-->
+                        
+                </div>
+        </div>
+        
+        <script>
+            
+            const splash = document.querySelector('.splash');
+            document.addEventListener('DOMContentLoaded',(e)=>{
+                setTimeout(()=>{
+                    splash.classList.add('display-none');
+                }, 5000);
+                
+            })
+            
+
+            function openTab(evt, tabName){
+                var i, tabcontent, tablinks;
+                tabcontent=
+                    document.getElementsByClassName("tabcontent");
+                    for (i = 0; i < tabcontent.length; i++){
+                        tabcontent[i].style.display = "none";
+                    }
+                tablinks=
+                    document.getElementsByClassName("tablinks");
+                    for(i = 0; i < tablinks.length; i++){
+                        tablinks[i].className =
+                            tablinks[i].className.replace(" active", "");
+                    }
+                document.getElementById(tabName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+           
+            
+        </script>
+        
+    
+    </body>
+</html>
